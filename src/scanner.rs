@@ -9,6 +9,7 @@ pub(crate) struct Scanner {
 
 impl Scanner {
     pub(crate) fn scan_tokens(source: String) {
+        let e = '=';
         let null = "null";
         let mut line = 1;
         let mut had_error = false;
@@ -36,12 +37,27 @@ impl Scanner {
                     }
                 },
                 '!' => {
-                    let e = '=';
                     if tokens.peek() == Some(&e) {
                         println!("{:?} {c}{e} {null}", TokenType::BANG_EQUAL);
                         tokens.next();
                     } else {
                         println!("{:?} {c} {null}", TokenType::BANG)
+                    }
+                },
+                '<' => {
+                    if tokens.peek() == Some(&e) {
+                        println!("{:?} {c}{e} {null}", TokenType::LESS_EQUAL);
+                        tokens.next();
+                    } else {
+                        println!("{:?} {c} {null}", TokenType::LESS)
+                    }
+                },
+                '>' => {
+                    if tokens.peek() == Some(&e) {
+                        println!("{:?} {c}{e} {null}", TokenType::GREATER_EQUAL);
+                        tokens.next();
+                    } else {
+                        println!("{:?} {c} {null}", TokenType::GREATER)
                     }
                 },
                 '\n' => line += 1,
