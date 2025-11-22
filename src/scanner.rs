@@ -28,11 +28,20 @@ impl Scanner {
                 ';' => println!("{:?} {c} {null}", TokenType::SEMICOLON),
                 '*' => println!("{:?} {c} {null}", TokenType::STAR),
                 '=' => {
-                    if tokens.peek() == Some(&'=') {
+                    if tokens.peek() == Some(&c) {
                         println!("{:?} {c}{c} {null}", TokenType::EQUAL_EQUAL);
                         tokens.next();
                     } else {
                         println!("{:?} {c} {null}", TokenType::EQUAL)
+                    }
+                },
+                '!' => {
+                    let e = '=';
+                    if tokens.peek() == Some(&e) {
+                        println!("{:?} {c}{e} {null}", TokenType::BANG_EQUAL);
+                        tokens.next();
+                    } else {
+                        println!("{:?} {c} {null}", TokenType::BANG)
                     }
                 },
                 '\n' => line += 1,
