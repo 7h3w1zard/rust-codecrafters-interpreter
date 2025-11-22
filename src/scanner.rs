@@ -60,6 +60,13 @@ impl Scanner {
                         println!("{:?} {c} {null}", TokenType::GREATER)
                     }
                 },
+                '/' => {
+                    if tokens.peek() == Some(&c) {
+                        break;
+                    } else {
+                        println!("{:?} {c} {null}", TokenType::SLASH)
+                    }
+                },
                 '\n' => line += 1,
                 _ => {
                     eprintln!("[line {line}] Error: Unexpected character: {c}");
