@@ -35,7 +35,7 @@ impl Scanner {
                     } else {
                         println!("{:?} {c} {null}", TokenType::EQUAL)
                     }
-                },
+                }
                 '!' => {
                     if tokens.peek() == Some(&e) {
                         println!("{:?} {c}{e} {null}", TokenType::BANG_EQUAL);
@@ -43,7 +43,7 @@ impl Scanner {
                     } else {
                         println!("{:?} {c} {null}", TokenType::BANG)
                     }
-                },
+                }
                 '<' => {
                     if tokens.peek() == Some(&e) {
                         println!("{:?} {c}{e} {null}", TokenType::LESS_EQUAL);
@@ -51,7 +51,7 @@ impl Scanner {
                     } else {
                         println!("{:?} {c} {null}", TokenType::LESS)
                     }
-                },
+                }
                 '>' => {
                     if tokens.peek() == Some(&e) {
                         println!("{:?} {c}{e} {null}", TokenType::GREATER_EQUAL);
@@ -59,19 +59,31 @@ impl Scanner {
                     } else {
                         println!("{:?} {c} {null}", TokenType::GREATER)
                     }
-                },
+                }
                 '/' => {
                     if tokens.peek() == Some(&c) {
-                        break;
+                        while let Some(t) = tokens.next() {
+                            match t {
+                                '\n' => {
+                                    line += 1;
+                                    break;
+                                }
+                                _ => {}
+                            }
+                            if tokens.peek() == None {
+                                break;
+                            }
+                        }
                     } else {
                         println!("{:?} {c} {null}", TokenType::SLASH)
                     }
-                },
+                }
+                ' ' | '\r' | '\t' => {}
                 '\n' => line += 1,
                 _ => {
                     eprintln!("[line {line}] Error: Unexpected character: {c}");
                     had_error = true;
-                },
+                }
             }
         }
 
