@@ -13,7 +13,9 @@ impl Scanner {
         let mut line = 1;
         let mut had_error = false;
 
-        for c in source.chars() {
+        let mut tokens = source.chars().peekable();
+
+        while let Some(c) = tokens.next() {
             match c {
                 '(' => println!("{:?} {c} {null}", TokenType::LEFT_PAREN),
                 ')' => println!("{:?} {c} {null}", TokenType::RIGHT_PAREN),
@@ -25,6 +27,14 @@ impl Scanner {
                 '+' => println!("{:?} {c} {null}", TokenType::PLUS),
                 ';' => println!("{:?} {c} {null}", TokenType::SEMICOLON),
                 '*' => println!("{:?} {c} {null}", TokenType::STAR),
+                '=' => {
+                    if tokens.peek() == Some(&'=') {
+                        println!("{:?} {c}{c} {null}", TokenType::EQUAL_EQUAL);
+                        tokens.next();
+                    } else {
+                        println!("{:?} {c} {null}", TokenType::EQUAL)
+                    }
+                },
                 '\n' => line += 1,
                 _ => {
                     eprintln!("[line {line}] Error: Unexpected character: {c}");
