@@ -78,6 +78,23 @@ impl Scanner {
                         println!("{:?} {c} {null}", TokenType::SLASH)
                     }
                 }
+                '"' => {
+                    let mut unterminated = true;
+                    let mut string = String::new();
+                    while let Some(t) = tokens.next() {
+                        if t == c {
+                            unterminated = false;
+                            break;
+                        }
+                        string.push(t);
+                    }
+                    if unterminated {
+                        eprintln!("[line {line}] Error: Unterminated string.");
+                        had_error = true;
+                    } else {
+                        println!("{:?} \"{string}\" {string}", TokenType::STRING)
+                    }
+                }
                 ' ' | '\r' | '\t' => {}
                 '\n' => line += 1,
                 _ => {
