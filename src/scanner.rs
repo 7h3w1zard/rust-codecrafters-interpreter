@@ -1,4 +1,4 @@
-use std::process::exit;
+use std::{f64, process::exit};
 
 use crate::token::TokenType;
 
@@ -97,7 +97,17 @@ impl Scanner {
                 }
                 ' ' | '\r' | '\t' => {}
                 '\n' => line += 1,
-                _ => {
+                c => if c.is_digit(10) {
+                    let mut number = String::from(c);
+                    while let Some(next) = tokens.peek() {
+                        if next.is_digit(10) || next == &'.' {
+                            number.push(tokens.next().unwrap());
+                        } else {
+                            break;
+                        }
+                    }
+                    println!("{:?} {number} {:?}", TokenType::NUMBER, number.parse::<f64>().unwrap())
+                } else {
                     eprintln!("[line {line}] Error: Unexpected character: {c}");
                     had_error = true;
                 }
