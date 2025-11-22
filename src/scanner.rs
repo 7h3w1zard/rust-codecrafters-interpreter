@@ -14,6 +14,12 @@ impl Scanner {
                 ')' => println!("{:?} {c} {null}", TokenType::RIGHT_PAREN),
                 '{' => println!("{:?} {c} {null}", TokenType::LEFT_BRACE),
                 '}' => println!("{:?} {c} {null}", TokenType::RIGHT_BRACE),
+                ',' => println!("{:?} {c} {null}", TokenType::COMMA),
+                '.' => println!("{:?} {c} {null}", TokenType::DOT),
+                '-' => println!("{:?} {c} {null}", TokenType::MINUS),
+                '+' => println!("{:?} {c} {null}", TokenType::PLUS),
+                ';' => println!("{:?} {c} {null}", TokenType::SEMICOLON),
+                '*' => println!("{:?} {c} {null}", TokenType::STAR),
                 _ => panic!("Unexpected character."),
             }
         }
