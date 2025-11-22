@@ -12,6 +12,8 @@ impl Scanner {
             match c {
                 '(' => println!("{:?} {c} {null}", TokenType::LEFT_PAREN),
                 ')' => println!("{:?} {c} {null}", TokenType::RIGHT_PAREN),
+                '{' => println!("{:?} {c} {null}", TokenType::LEFT_BRACE),
+                '}' => println!("{:?} {c} {null}", TokenType::RIGHT_BRACE),
                 _ => panic!("Unexpected character."),
             }
         }
