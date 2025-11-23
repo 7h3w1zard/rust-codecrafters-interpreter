@@ -97,7 +97,7 @@ impl Scanner {
                 }
                 ' ' | '\r' | '\t' => {}
                 '\n' => line += 1,
-                c => if c.is_digit(10) {
+                '0'..='9' => {
                     let mut number = String::from(c);
                     while let Some(next) = tokens.peek() {
                         if next.is_digit(10) || next == &'.' {
@@ -107,7 +107,19 @@ impl Scanner {
                         }
                     }
                     println!("{:?} {number} {:?}", TokenType::NUMBER, number.parse::<f64>().unwrap())
-                } else {
+                }
+                'a'..='z' | 'A'..='Z' | '_'  => {
+                    let mut ident = String::from(c);
+                    while let Some(next) = tokens.peek() {
+                        if next.is_ascii_alphanumeric() {
+                            ident.push(tokens.next().unwrap());
+                        } else {
+                            break;
+                        }
+                    }
+                    println!("{:?} {ident} {null}", TokenType::IDENTIFIER)
+                }
+                _ => {
                     eprintln!("[line {line}] Error: Unexpected character: {c}");
                     had_error = true;
                 }
