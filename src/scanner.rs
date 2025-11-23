@@ -1,6 +1,6 @@
 use std::{f64, process::exit};
 
-use crate::token::TokenType;
+use crate::token::{Reserved, ReservedKeywords, TokenType};
 
 pub(crate) struct Scanner {
     // source: String,
@@ -117,7 +117,11 @@ impl Scanner {
                             break;
                         }
                     }
-                    println!("{:?} {ident} {null}", TokenType::IDENTIFIER)
+                    if let Some(r) = ReservedKeywords::is_reserved(&ident) {
+                        println!("{:?} {} {null}", r, format!("{:?}", r).to_lowercase())
+                    } else {
+                        println!("{:?} {ident} {null}", TokenType::IDENTIFIER)
+                    }
                 }
                 _ => {
                     eprintln!("[line {line}] Error: Unexpected character: {c}");
